@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 run_backup(){
   b_path="download/${BAK_VERSION-"latest"}"
   if [ "${BAK_VERSION-"latest"}" = "latest" ]; then
