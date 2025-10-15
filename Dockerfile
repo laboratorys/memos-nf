@@ -11,7 +11,4 @@ RUN apk update && apk add --no-cache curl tar gcompat libc6-compat gcc musl-dev 
 COPY backup.sh /usr/local/memos/backup.sh
 RUN chmod +x /usr/local/memos/backup.sh
 
-# 调试：检查依赖和符号
-RUN ldd /usr/local/memos/backup2gh && nm -D /usr/lib/gcompat/libgcompat.so.0 | grep fcntl64 || true
-
 ENTRYPOINT ["/bin/sh", "-c", "/usr/local/memos/backup.sh && /usr/local/memos/memos"]
