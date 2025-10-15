@@ -22,5 +22,9 @@ ENV MEMOS_MODE=prod
 ENV MEMOS_PORT=5230
 ENV TZ=Asia/Shanghai
 
+RUN mkdir -p /var/opt/memos && \
+    chown -R nobody:nogroup /var/opt/memos && \
+    chmod -R 755 /var/opt/memos
+
 # 修复：正确的 ENTRYPOINT 格式
 ENTRYPOINT ["/bin/sh", "-c", "/usr/local/memos/backup.sh && exec /usr/local/memos/memos"]
