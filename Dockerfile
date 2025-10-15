@@ -3,9 +3,9 @@ FROM neosmemo/memos:stable
 WORKDIR /usr/local/memos
 
 # 安装更多兼容性库和调试工具
-RUN apk add --no-cache curl tar gcompat libc6-compat gcc musl-dev sqlite-dev libgcc libstdc++ strace && \
-    ln -sf /usr/lib/libucontext.so.1 /usr/lib/libucontext.so && \
-    ln -sf /usr/lib/libobstack.so.1 /usr/lib/libobstack.so && \
+RUN apk update && apk add --no-cache curl tar gcompat libc6-compat gcc musl-dev sqlite-dev libgcc libstdc++ strace && \
+    ls -l /usr/lib | grep gcompat || true && \
+    apk info gcompat || true && \
     ldconfig /lib /usr/lib || true
 
 COPY backup.sh /usr/local/memos/backup.sh
