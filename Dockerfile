@@ -1,20 +1,22 @@
-# 第一阶段：构建 memos
+# 构建阶段
 FROM neosmemo/memos:stable AS builder
 WORKDIR /usr/local/memos
 
-# 第二阶段：运行环境
+# 运行阶段
 FROM debian:12-slim
 WORKDIR /usr/local/memos
 
-# 安装依赖
-RUN apt-get update && apt-get install -y curl tar
+# 安装依赖并清理缓存
+RUN apt-get update && \
+    apt-get install -y curl tar && \
+    rm -rf /var/lib/apt/lists/*
 
-# 从 builder 复制 memos 二进制文件
+# 从构建阶段复制文件
 COPY --from=builder /usr/local/memos/memos /usr/local/memos/
-
-# 复制 backup.sh 脚本
 COPY backup.sh /usr/local/memos/
-RUN chmod +x /usr/local/memos/backup.sh /usr/local/memos/memos
 
-# 设置入口点
-ENTRYPOINT ["/bin/sh", "-c", "/usr/local/memos/backup.sh && /usr/local/memos/memos
+# 设置可执行权限
+RUN chmod +x /usr/local/memos/memos /usr/local/memos/backup.sh
+
+# 修复：正确的 ENTRYPOINT 格式
+ENTRYPOINT ["/bin/sh", "-c", "/usr/local/memos/backup.sh && exec /usr/local/memos/memos"]
