@@ -18,5 +18,9 @@ COPY backup.sh /usr/local/memos/
 # 设置可执行权限
 RUN chmod +x /usr/local/memos/memos /usr/local/memos/backup.sh
 
+ENV MEMOS_MODE=prod
+ENV MEMOS_PORT=5230
+ENV TZ=Asia/Shanghai
+
 # 修复：正确的 ENTRYPOINT 格式
 ENTRYPOINT ["/bin/sh", "-c", "/usr/local/memos/backup.sh && exec /usr/local/memos/memos"]
