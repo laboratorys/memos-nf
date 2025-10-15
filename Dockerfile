@@ -2,7 +2,7 @@ FROM neosmemo/memos:stable AS builder
 
 WORKDIR /usr/local/memos
 
-FROM debian:slim
+FROM debian:12-slim
 
 WORKDIR /usr/local/memos
 
