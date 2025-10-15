@@ -6,7 +6,7 @@ FROM debian:12-slim
 
 WORKDIR /usr/local/memos
 
-RUN apt-get update && apt-get install -y curl tar sqlite3 libucontext1 libobstack-dev libresolv2 && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y curl tar
 COPY --from=builder /usr/local/memos/memos /usr/local/memos/memos COPY --from=builder 
 
 RUN chmod +x /usr/local/memos/memos
