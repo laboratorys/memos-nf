@@ -2,7 +2,7 @@ FROM neosmemo/memos:stable
 
 WORKDIR /usr/local/memos
 
-RUN apk add --no-cache curl tar libc6-compat
+RUN apk add --no-cache curl tar gcompat libc6-compat gcc musl-dev sqlite-dev
 
 COPY backup.sh /usr/local/memos/backup.sh
 RUN chmod +x /usr/local/memos/backup.sh
