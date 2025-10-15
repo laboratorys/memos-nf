@@ -1,12 +1,15 @@
-FROM neosmemo/memos:stable
+FROM neosmemo/memos:stable AS builder
 
 WORKDIR /usr/local/memos
 
-# 安装更多兼容性库和调试工具
-RUN apk update && apk add --no-cache curl tar gcompat libc6-compat gcc musl-dev sqlite-dev libgcc libstdc++ strace && \
-    ls -l /usr/lib | grep gcompat || true && \
-    apk info gcompat || true && \
-    ldconfig /lib /usr/lib || true
+FROM debian:slim
+
+WORKDIR /usr/local/memos
+
+RUN apt-get update && apt-get install -y curl tar sqlite3 libucontext1 libobstack-dev libresolv2 && rm -rf /var/lib/apt/lists/*
+COPY --from=builder /usr/local/memos/memos /usr/local/memos/memos COPY --from=builder 
+
+RUN chmod +x /usr/local/memos/memos
 
 COPY backup.sh /usr/local/memos/backup.sh
 RUN chmod +x /usr/local/memos/backup.sh
